@@ -1,0 +1,37 @@
+services:
+  rabbitmq-interne:
+    image: rabbitmq:3.9.25-management-alpine
+    container_name: rabbitmq-interne
+    restart: always
+    ports:
+      - 29571:5672
+      - 29671:15672
+    #command: rabbitmq-plugins enable --offline rabbitmq_mqtt rabbitmq_federation_management rabbitmq_stomp rabbitmq_shovel rabbitmq_shovel_management
+    networks:
+      - application-network
+    volumes:
+      - poc-rabbitmq-interne:/var/lib/rabbitmq
+  rabbitmq-externe:
+    image: rabbitmq:3.9.25-management-alpine
+    container_name: rabbitmq-externe
+    restart: always
+    ports:
+      - 29572:5672
+      - 29672:15672
+    #command: rabbitmq-plugins enable --offline rabbitmq_mqtt rabbitmq_federation_management rabbitmq_stomp rabbitmq_shovel rabbitmq_shovel_management
+    networks:
+      - application-network
+    volumes:
+      - poc-rabbitmq-externe:/var/lib/rabbitmq
+networks:
+  application-network:
+    name: application-network
+    external: true
+
+volumes:
+  poc-rabbitmq-interne:
+    external: true
+    name: poc-rabbitmq-interne
+  poc-rabbitmq-externe:
+    external: true
+    name: poc-rabbitmq-interne

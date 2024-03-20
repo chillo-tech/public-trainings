@@ -1,0 +1,31 @@
+version: '3'
+
+networks:
+  rabbitmq-cluster:
+    external: true
+    name: rabbitmq-cluster
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - rabbitmq-cluster
+    ports:
+      - '27590:9090'
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - rabbitmq-cluster
+    ports:
+      - '27591:3000'
+    depends_on:
+      - prometheus

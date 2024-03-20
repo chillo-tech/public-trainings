@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets: 
+        - 'host.docker.internal:29591'
+        - 'host.docker.internal:29592'
+        - 'host.docker.internal:29593'
+scrape_configs:
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets: 
+        - 'host.docker.internal:29591'
+        - 'host.docker.internal:29592'
+        - 'host.docker.internal:29593'
+
+
+
+
